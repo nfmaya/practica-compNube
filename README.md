@@ -15,9 +15,13 @@ $ yarn install
 ```
 
 ## Paso 2: levantar el docker
-
+BUILD
 ```
-$ docker compose up -d
+docker-compose -f docker-compose.prod.yml --env-file .env.prod up --build
+```
+RUN
+```
+docker-compose -f docker-compose.prod.yml --env-file .env.prod up
 ```
 
 ## Paso 3: correr la app

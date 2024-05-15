@@ -1,33 +1,38 @@
 version: '3'
 
 services:
-  nubeAPI:
+    db:
+      image: postgres:14.3
+      restart: always
+      ports:
+       - "${DB_PORT}:${DB_PORT}"
+    environment:
+     POSTGRES_PASSWORD: {DB_PASS}          
+     POSTGRES_DB: {DB_NAME}
+    container_name: nubedb
+    volumes:
+     - ./postgres:/var/lib/postgresql/data
+
+    anylistapp:
     depends_on:
       - db
     build: 
       context: .
       dockerfile: Dockerfile
-    image: nube-docker
-    container_name: nubeapp
-    restart: always # reiniciar el contenedor si se detiene
-    ports:
+      image: nube-docker
+      container_name: nubeapp
+      restart: always # reiniciar el contenedor si se detiene
+      ports:
       - "${PORT}:${PORT}"
-    # working_dir: /var/www/pokedex
-    environment:
-      POSTGRES_DB: ${DB_NAME}
-      PORT: ${PORT}
-    # volumes:
-    #   - ./:/var/www/pokedex
+   
+      environment:
+        DB_PASSWORD: ${DB_PASS}
+        DB_NAME: ${DB_NAME}
+        DB_HOSTNAME: ${DB_HOST}
+        DB_PORT: ${DB_PORT}
+        DB_USERNAME: ${DB_USERNAME}
 
-  db:
-   image: postgres:14.3
-   restart: always
-   ports:
-   - "5431:5432"
-   environment:
-     POSTGRES_USER: nube
-     POSTGRES_PASSWORD: nube
-     POSTGRES_DB: nube
-   container_name: nubedb
-   volumes:
-     - ./postgres:/var/lib/postgresql/data
+
+
+   
+   
