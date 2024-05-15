@@ -4,8 +4,6 @@ services:
   db:
     image: postgres:14.3
     restart: always
-    ports:
-      - "5432:${DB_PORT}"
     environment:
       POSTGRES_PASSWORD: nube
       POSTGRES_DB: nubedb
@@ -23,9 +21,9 @@ services:
     ports:
       - "3000:${PORT}"
     environment:
-      DB_PASSWORD: "${DB_PASS}"
+      DB_PASS: "${DB_PASS}"
       DB_NAME: "${DB_NAME}"
-      DB_HOSTNAME: "${DB_HOST}"
-      DB_PORT: "${DB_PORT}"
+      DB_HOST: db
+      DB_PORT: "5432"
       DB_USERNAME: "${DB_USERNAME}"
       PORT: "${PORT}"
