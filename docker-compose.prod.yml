@@ -7,11 +7,11 @@ services:
       ports:
        - "${DB_PORT}:${DB_PORT}"
       environment:
-        POSTGRES_PASSWORD: {DB_PASS}          
-        POSTGRES_DB: {DB_NAME}
+        POSTGRES_PASSWORD: nube          
+        POSTGRES_DB: nubedb
     ##container_name: nubedb
-    volumes:
-     - ./postgres:/var/lib/postgresql/data
+      volumes:
+        - ./postgres:/var/lib/postgresql/data
 
     anylistapp:
       depends_on:
@@ -26,12 +26,12 @@ services:
         - "${PORT}:${PORT}"
    
     environment:
-      DB_PASSWORD: ${DB_PASS}
-      DB_NAME: ${DB_NAME}
-      DB_HOSTNAME: ${DB_HOST}
-      DB_PORT: ${DB_PORT}
-      DB_USERNAME: ${DB_USERNAME}
-      PORT: ${PORT}
+      #DB_PASSWORD: ${DB_PASS}
+      #DB_NAME: ${DB_NAME}
+      #DB_HOSTNAME: ${DB_HOST}
+      #DB_PORT: ${DB_PORT}
+      #DB_USERNAME: ${DB_USERNAME}
+      #PORT: ${PORT}
 
 
 
