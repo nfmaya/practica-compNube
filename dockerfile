@@ -1,6 +1,6 @@
 # Install dependencies only when needed
 FROM node:21-alpine AS deps
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json yarn.lock ./
@@ -26,17 +26,14 @@ RUN yarn install --prod
 
 COPY --from=builder /app/dist ./dist
 
-# # Copiar el directorio y su contenido
-# RUN mkdir -p ./pokedex
+FROM postgres:16
 
-# COPY --from=builder ./app/dist/ ./app
-# COPY ./.env ./app/.env
+ENV POSTGRES_PASSWORD password
 
-# # Dar permiso para ejecutar la applicación
-# RUN adduser --disabled-password pokeuser
-# RUN chown -R pokeuser:pokeuser ./pokedex
-# USER pokeuser
+RUN mkdir -p /var/lib/postgresql/data
 
-# EXPOSE 3000
+WORKDIR /var/lib/postgresql/data
 
-CMD [ "node","dist/main" ]
+EXPOSE 5432
+
+CMD ["postgres", "-Dd", "/var/lib/postgresql/data", "-c", "listen_addresses='*'", "node","dist/main","yarn","start"]
