@@ -26,14 +26,5 @@ RUN yarn install --prod
 
 COPY --from=builder /app/dist ./dist
 
-FROM postgres:16
 
-ENV POSTGRES_PASSWORD password
-
-RUN mkdir -p /var/lib/postgresql/data
-
-WORKDIR /var/lib/postgresql/data
-
-EXPOSE 5432
-
-CMD ["postgres", "-Dd", "/var/lib/postgresql/data", "-c", "listen_addresses='*'", "node","dist/main","yarn","start"]
+CMD ["node","dist/main"]
